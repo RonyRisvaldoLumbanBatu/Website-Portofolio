@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Rony Risvaldo</title>
+  <meta name="description" content="Portofolio Rony Risvaldo, Full-Stack Web & Mobile Developer. Laravel, React, Node.js, Flutter.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== LAYAR PEMBUKA ===== -->
+  <div id="intro" class="intro" role="dialog" aria-label="Layar pembuka">
+    <div class="intro-inner">
+      <i class="pi intro-gem" style="--i:url('assets/icons/gem.svg')" aria-hidden="true"></i>
+      <p class="intro-name">PORTOFOLIO RONY</p>
+      <button id="pressStart" class="press-start">► PRESS START ◄</button>
+      <button id="startMuted" class="intro-mute">masuk tanpa musik</button>
+    </div>
+  </div>
+
+  <!-- Musik latar: rpg_village02 oleh Pascal Belisle (Gothicvania Town, CC0) -->
+  <audio id="bgm" loop preload="none">
+    <source src="assets/audio/bgm.ogg" type="audio/ogg">
+    <source src="assets/audio/bgm.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <i class="pi logo-gem" style="--i:url('assets/icons/gem.svg')" aria-hidden="true"></i>
+        RONY<span class="blink">_</span>
+      </a>
+      <div class="nav-right">
+        <button class="music-toggle" id="musicToggle" aria-label="Nyalakan/matikan musik" title="Musik">
+          <i class="pi" style="--i:url('assets/icons/music.svg')" aria-hidden="true"></i>
+        </button>
+        <button class="nav-toggle" aria-label="Buka menu">☰</button>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#about"><i class="pi" style="--i:url('assets/icons/helm.svg')" aria-hidden="true"></i> Karakter</a></li>
+        <li><a href="#skills"><i class="pi" style="--i:url('assets/icons/crossed-swords.svg')" aria-hidden="true"></i> Kemampuan</a></li>
+        <li><a href="#projects"><i class="pi" style="--i:url('assets/icons/scroll.svg')" aria-hidden="true"></i> Quest Log</a></li>
+        <li><a href="#contact"><i class="pi" style="--i:url('assets/icons/raven.svg')" aria-hidden="true"></i> Kirim Gagak</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header id="hero" class="hero">
+    <div class="layer sky" aria-hidden="true"></div>
+    <div class="layer town" aria-hidden="true"></div>
+    <div class="fog fog-1" aria-hidden="true"></div>
+    <div class="fog fog-2" aria-hidden="true"></div>
+    <div id="embers" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <p class="hero-pre">~ selamat datang, pengelana ~</p>
+      <h1 class="hero-title">RONY</h1>
+      <p class="hero-sub"><span id="typewriter"></span><span class="cursor">▌</span></p>
+      <p class="hero-desc">Menempa aplikasi web &amp; mobile dari kegelapan menjadi cahaya,<br>dari Sumatra Utara untuk dunia.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary"><i class="pi" style="--i:url('assets/icons/crossed-swords.svg')" aria-hidden="true"></i> Lihat Quest</a>
+        <a href="#contact" class="btn btn-ghost"><i class="pi" style="--i:url('assets/icons/mail.svg')" aria-hidden="true"></i> Hubungi Aku</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">▼</div>
+  </header>
+
+  <main>
+    <!-- ===== ABOUT / KARAKTER ===== -->
+    <section id="about" class="section">
+      <h2 class="section-title"><img src="assets/sprites/torch.gif" alt="" class="torch-gif"> Lembar Karakter <img src="assets/sprites/torch.gif" alt="" class="torch-gif"></h2>
+      <div class="sprite-stage" aria-hidden="true">
+        <div class="sprite sprite-bearded"></div>
+        <div class="sprite sprite-monk flip"></div>
+      </div>
+      <div class="char-card reveal">
+        <div class="char-portrait">
+          <div class="portrait-frame">
+            <img src="assets/img/profil.jpeg" alt="Foto Rony Risvaldo" class="avatar" width="460" height="460" loading="lazy">
+          </div>
+          <p class="char-class">« Full-Stack Apprentice »</p>
+          <div class="char-bars">
+            <div class="bar-row"><span class="bar-label">HP</span><div class="bar hp"><div style="width:92%"></div></div></div>
+            <div class="bar-row"><span class="bar-label">MP</span><div class="bar mp"><div style="width:78%"></div></div></div>
+            <div class="bar-row"><span class="bar-label">XP</span><div class="bar xp"><div style="width:64%"></div></div></div>
+          </div>
+        </div>
+        <div class="char-info">
+          <h3 class="char-name">Rony Risvaldo</h3>
+          <p class="char-loc"><i class="pi" style="--i:url('assets/icons/pin.svg')" aria-hidden="true"></i> Sumatra Utara, Indonesia · Guild: Universitas Satya Terra Bhinneka</p>
+          <p class="char-bio">
+            Halo! Aku Rony, mahasiswa sekaligus developer yang suka membangun hal-hal
+            keren di web dan mobile. Bagiku setiap project adalah quest baru: ada
+            tantangan, ada boss fight (baca: bug), dan ada loot berupa skill baru
+            di akhir perjalanan.
+          </p>
+          <p class="char-bio">
+            Sejauh ini aku sudah menempa sistem IT Helpdesk dengan chat realtime,
+            aplikasi ujian berbasis komputer (CBT) dengan Laravel, aplikasi kasir
+            untuk UMKM kuliner, sampai aplikasi mobile banking dengan Flutter.
+          </p>
+          <div class="char-stats-mini">
+            <div class="mini-stat"><span class="mini-num" data-count="13">0</span><span class="mini-label">Repositori</span></div>
+            <div class="mini-stat"><span class="mini-num" data-count="4">0</span><span class="mini-label">Quest Utama</span></div>
+            <div class="mini-stat"><span class="mini-num" data-count="5">0</span><span class="mini-label">Bintang GitHub</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="section section-alt section-fx">
+      <div class="fireball-fly" aria-hidden="true"></div>
+      <h2 class="section-title"><img src="assets/sprites/torch.gif" alt="" class="torch-gif"> Atribut &amp; Kemampuan <img src="assets/sprites/torch.gif" alt="" class="torch-gif"></h2>
+      <p class="section-sub">Senjata dan sihir yang kukuasai</p>
+      <div class="sprite-stage" aria-hidden="true"><div class="sprite sprite-wizard"></div></div>
+      <div class="skills-grid">
+        <div class="skill reveal" data-level="85">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/sword.svg')" aria-hidden="true"></i> PHP &amp; Laravel <span class="skill-lv">Lv.85</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill reveal" data-level="80">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/bow.svg')" aria-hidden="true"></i> JavaScript &amp; Node.js <span class="skill-lv">Lv.80</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill reveal" data-level="75">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/shield.svg')" aria-hidden="true"></i> React &amp; Vite <span class="skill-lv">Lv.75</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill reveal" data-level="70">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/gem.svg')" aria-hidden="true"></i> Flutter &amp; Dart <span class="skill-lv">Lv.70</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill reveal" data-level="88">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/scroll.svg')" aria-hidden="true"></i> HTML, CSS &amp; Tailwind <span class="skill-lv">Lv.88</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill reveal" data-level="72">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/key.svg')" aria-hidden="true"></i> MySQL &amp; PostgreSQL <span class="skill-lv">Lv.72</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill reveal" data-level="65">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/potion.svg')" aria-hidden="true"></i> Docker <span class="skill-lv">Lv.65</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill reveal" data-level="78">
+          <div class="skill-head"><i class="pi pi-gold" style="--i:url('assets/icons/tree.svg')" aria-hidden="true"></i> Git &amp; GitHub <span class="skill-lv">Lv.78</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS / QUEST LOG ===== -->
+    <section id="projects" class="section">
+      <h2 class="section-title"><img src="assets/sprites/torch.gif" alt="" class="torch-gif"> Quest Log <img src="assets/sprites/torch.gif" alt="" class="torch-gif"></h2>
+      <p class="section-sub">Petualangan yang telah diselesaikan</p>
+      <div class="quests">
+
+        <article class="quest reveal">
+          <div class="quest-banner banner-gargoyle">
+            <span class="quest-rank">RANK S</span>
+            <span class="quest-stars">★ 2</span>
+          </div>
+          <div class="quest-body">
+            <h3 class="quest-title"><i class="pi pi-gold" style="--i:url('assets/icons/helm.svg')" aria-hidden="true"></i> IT Helpdesk</h3>
+            <p class="quest-desc">Sistem helpdesk IT dengan UI modern, chat tiket realtime, Docker-ready, dan fitur keamanan lengkap. Quest melindungi kerajaan dari serbuan tiket masalah.</p>
+            <div class="quest-tags"><span>PHP</span><span>CSS</span><span>Docker</span></div>
+            <div class="quest-actions">
+              <a href="https://github.com/RonyRisvaldoLumbanBatu/it-helpdesk" target="_blank" rel="noopener" class="btn btn-small"><i class="pi" style="--i:url('assets/icons/hammer.svg')" aria-hidden="true"></i> Kode</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="quest reveal">
+          <div class="quest-banner banner-altar">
+            <span class="quest-rank">RANK S</span>
+            <span class="quest-stars">★ 2</span>
+          </div>
+          <div class="quest-body">
+            <h3 class="quest-title"><i class="pi pi-gold" style="--i:url('assets/icons/quill.svg')" aria-hidden="true"></i> CBT Rony</h3>
+            <p class="quest-desc">Aplikasi Computer Based Test dengan Laravel 12, Livewire 3, dan PostgreSQL. Lengkap dengan monitoring ujian realtime lewat Laravel Reverb.</p>
+            <div class="quest-tags"><span>Laravel</span><span>Livewire</span><span>PostgreSQL</span><span>Tailwind</span></div>
+            <div class="quest-actions">
+              <a href="https://github.com/RonyRisvaldoLumbanBatu/CBT-Rony" target="_blank" rel="noopener" class="btn btn-small"><i class="pi" style="--i:url('assets/icons/hammer.svg')" aria-hidden="true"></i> Kode</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="quest reveal">
+          <div class="quest-banner banner-window">
+            <span class="quest-rank">RANK A</span>
+          </div>
+          <div class="quest-body">
+            <h3 class="quest-title"><i class="pi pi-gold" style="--i:url('assets/icons/drumstick.svg')" aria-hidden="true"></i> SAPL · POS Resto</h3>
+            <p class="quest-desc">Sistem Ayam Penyet Lamongan: aplikasi Point of Sales untuk restoran &amp; UMKM kuliner. Kelola pesanan, stok, dan laporan keuangan dalam satu guild hall.</p>
+            <div class="quest-tags"><span>React</span><span>Node.js</span><span>Vite</span><span>MySQL</span></div>
+            <div class="quest-actions">
+              <a href="https://github.com/RonyRisvaldoLumbanBatu/SAPL" target="_blank" rel="noopener" class="btn btn-small"><i class="pi" style="--i:url('assets/icons/hammer.svg')" aria-hidden="true"></i> Kode</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="quest reveal">
+          <div class="quest-banner banner-column">
+            <span class="quest-rank">RANK A</span>
+            <span class="quest-stars">★ 1</span>
+          </div>
+          <div class="quest-body">
+            <h3 class="quest-title"><i class="pi pi-gold" style="--i:url('assets/icons/moneybag.svg')" aria-hidden="true"></i> BhinnekaPay</h3>
+            <p class="quest-desc">Aplikasi mobile banking mini (minibank) yang ditempa dengan Flutter. Kelola saldo dan transaksi langsung dari saku pengelana.</p>
+            <div class="quest-tags"><span>Flutter</span><span>Dart</span></div>
+            <div class="quest-actions">
+              <a href="https://github.com/RonyRisvaldoLumbanBatu/BhinnekaPay" target="_blank" rel="noopener" class="btn btn-small"><i class="pi" style="--i:url('assets/icons/hammer.svg')" aria-hidden="true"></i> Kode</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+      <div class="ghoul-track" aria-hidden="true"><div class="sprite sprite-ghoul"></div></div>
+      <p class="quests-more">
+        <a href="https://github.com/RonyRisvaldoLumbanBatu?tab=repositories" target="_blank" rel="noopener" class="btn btn-ghost"><i class="pi" style="--i:url('assets/icons/scroll.svg')" aria-hidden="true"></i> Buka Arsip Quest Lengkap (GitHub)</a>
+      </p>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="section section-alt">
+      <h2 class="section-title"><img src="assets/sprites/torch.gif" alt="" class="torch-gif"> Kirim Gagak <img src="assets/sprites/torch.gif" alt="" class="torch-gif"></h2>
+      <p class="section-sub">Punya quest untukku? Kirim pesan lewat gagak terpercaya.</p>
+      <div class="contact-wrap reveal">
+        <form class="contact-form" id="contactForm">
+          <label>
+            <span class="form-label">Namamu, Pengelana</span>
+            <input type="text" name="name" placeholder="Sir Lancelot" required>
+          </label>
+          <label>
+            <span class="form-label">Alamat Gagak (Email)</span>
+            <input type="email" name="email" placeholder="kamu@email.com" required>
+          </label>
+          <label>
+            <span class="form-label">Gulungan Pesan</span>
+            <textarea name="message" rows="5" placeholder="Tuliskan pesanmu di sini..." required></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary btn-wide"><i class="pi" style="--i:url('assets/icons/raven.svg')" aria-hidden="true"></i> Lepaskan Gagak</button>
+          <p class="form-note" id="formNote"></p>
+        </form>
+        <div class="contact-side">
+          <p class="side-title">Atau temui aku di:</p>
+          <ul class="socials">
+            <li><a href="mailto:ronyrisvaldo313@gmail.com"><i class="pi" style="--i:url('assets/icons/mail.svg')" aria-hidden="true"></i> ronyrisvaldo313@gmail.com</a></li>
+            <li><a href="https://github.com/RonyRisvaldoLumbanBatu" target="_blank" rel="noopener"><i class="pi" style="--i:url('assets/icons/anvil.svg')" aria-hidden="true"></i> github.com/RonyRisvaldoLumbanBatu</a></li>
+            <li><a href="https://rony.my.id" target="_blank" rel="noopener"><i class="pi" style="--i:url('assets/icons/castle.svg')" aria-hidden="true"></i> rony.my.id</a></li>
+          </ul>
+          <div class="side-decor" aria-hidden="true">
+            <div class="sprite angel-float"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="street" aria-hidden="true">
+      <div class="sprite npc npc-woman"></div>
+      <div class="sprite npc npc-oldman"></div>
+      <div class="sprite npc npc-hatman"></div>
+    </div>
+    <p>Ditempa dengan <span class="heart">♥</span> oleh Rony Risvaldo © <span id="year"></span></p>
+    <p class="footer-tag">« game over? tidak. new game+ »</p>
+    <p class="footer-credits">
+      Aset seni: <a href="https://opengameart.org/content/gothicvania-town" target="_blank" rel="noopener">Gothicvania oleh ansimuz</a> (CC0)
+      · <a href="https://opengameart.org/content/animated-pixel-torch" target="_blank" rel="noopener">obor oleh XLIVE99</a> (CC0)
+      · ikon oleh <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> (CC BY 3.0)
+      · musik oleh Pascal Belisle (CC0)
+    </p>
+  </footer>
+
+  <script src="assets/js/tsparticles.slim.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

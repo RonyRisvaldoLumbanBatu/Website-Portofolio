@@ -1,0 +1,5 @@
+# arsip mentah pack aset (sumber: OpenGameArt, tidak perlu ikut repo)
+assets/downloads/
+
+# konfigurasi lokal
+.claude/
