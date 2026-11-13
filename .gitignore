@@ -1,4 +1,9 @@
-# arsip mentah pack aset (sumber: OpenGameArt, tidak perlu ikut repo)
+node_modules
+public
+.DS_Store
+*.psd
+
+# arsip mentah pack aset situs lama (tidak perlu ikut repo)
 assets/downloads/
 
 # konfigurasi lokal

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RonyOS — Rony Risvaldo Showcase</title>
+  <!-- isi layar monitor di ruang 3D; juga bisa dibuka langsung -->
+  <meta name="description" content="Portfolio of Rony Risvaldo: about, experience, projects and contact.">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; overflow: hidden; }
+    body { background: #008080; color: #000; font: 19px/1.5 Tahoma, 'MS Sans Serif', Arial, sans-serif; }
+    button, input, textarea { font: inherit; color: inherit; }
+    a, .link { color: #0000ee; }
+    .link { padding: 0; background: none; border: 0; text-decoration: underline; cursor: pointer; }
+
+    /* dua bahasa: tiap teks ditulis dua kali, yang tidak aktif disembunyikan */
+    html[lang="en"] body [lang="id"], html[lang="id"] body [lang="en"] { display: none; }
+
+    /* tepi timbul & tenggelam khas antarmuka 90-an */
+    .raised { background: #c0c0c0; border: 2px solid; border-color: #fff #404040 #404040 #fff; box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf; }
+    .sunken { background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; }
+
+    .desktop { position: absolute; inset: 0 0 44px 0; overflow: hidden; }
+    .icons { display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; gap: 14px; height: 100%; padding: 16px; }
+    .icon { display: block; width: 124px; padding: 6px 4px; background: none; border: 1px dotted transparent; color: #fff; text-align: center; text-decoration: none; cursor: pointer; }
+    .icon svg { display: block; width: 48px; height: 48px; margin: 0 auto 4px; shape-rendering: crispEdges; }
+    .icon:hover span, .icon:focus-visible span { background: #000080; }
+    .icon:focus-visible { border-color: #fff; outline: none; }
+
+    .win { position: absolute; display: flex; flex-direction: column; max-width: calc(100% - 16px); max-height: calc(100% - 16px); padding: 2px; }
+    .win[hidden] { display: none; }
+    .bar { display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 8px; background: #808080; color: #fff; font-weight: bold; cursor: move; user-select: none; touch-action: none; }
+    .win.active .bar { background: #000080; }
+    .bar > span { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .bar button { width: 24px; height: 22px; padding: 0; line-height: 1; font-weight: bold; cursor: pointer; }
+    .body { flex: 1; min-height: 0; margin: 8px; overflow: auto; }
+    .body.pad { padding: 14px 16px; }
+    .dragging { user-select: none; }
+
+    /* jendela Showcase: halaman depan + halaman dengan menu samping */
+    .show { display: flex; height: 100%; font-family: Georgia, 'Times New Roman', serif; }
+    .show h1, .show h2, .side b { font-family: 'Cooper Black', 'Rockwell Extra Bold', Georgia, serif; font-weight: 900; line-height: 1; }
+    .side { flex: none; width: 230px; padding: 36px 0 0 36px; }
+    .side b { display: block; font-size: 30px; }
+    .side small { display: block; margin: 8px 0 36px; font-size: 19px; }
+    .side button, .home button { display: block; margin-bottom: 20px; font-weight: bold; text-transform: uppercase; }
+    .side button[aria-current="page"]::before { content: '○ '; }
+    .show[data-page="home"] .side { display: none; }
+    .pages { flex: 1; min-width: 0; padding: 36px 44px; overflow: auto; }
+    .pages > [hidden] { display: none; }
+    .home { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100%; text-align: center; }
+    .home h1 { margin: 0; font-size: 84px; }
+    .home p { margin: 8px 0 60px; font-size: 30px; letter-spacing: 3px; }
+    .home nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 36px; }
+    .show h2 { margin: 0 0 4px; font-size: 64px; }
+    .show h3 { margin: 28px 0 6px; font-size: 26px; }
+    .show p, .show ul { margin: 0 0 14px; text-align: justify; }
+    .show ul { padding-left: 24px; }
+    .meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 16px; font-style: italic; }
+    .photo { float: right; width: 190px; margin: 0 0 12px 20px; }
+    .photo img { display: block; width: 100%; height: auto; }
+    .tags { font-size: 16px; font-style: italic; }
+    #repos { padding: 0; list-style: none; text-align: left; }
+    #repos li { padding: 8px 0; border-top: 1px solid #c0c0c0; }
+    form label { display: block; margin-bottom: 12px; font-weight: bold; }
+    form input, form textarea { display: block; width: 100%; margin-top: 4px; padding: 6px 8px; font-family: Tahoma, Arial, sans-serif; font-weight: normal; }
+    form button { padding: 6px 20px; cursor: pointer; font-family: Tahoma, Arial, sans-serif; }
+
+    .taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 44px; display: flex; align-items: center; gap: 6px; padding: 4px; }
+    .taskbar button { height: 32px; padding: 0 12px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #start, #lang { font-weight: bold; }
+    #tasks { flex: 1; display: flex; gap: 4px; min-width: 0; }
+    #tasks button { flex: 0 1 220px; text-align: left; }
+    #tasks button.active, #start[aria-expanded="true"] { border-color: #404040 #fff #fff #404040; box-shadow: inset 1px 1px 0 #808080; background: #dfdfdf; }
+    #clock { padding: 4px 12px; background: #c0c0c0; }
+    #menu { position: absolute; left: 4px; bottom: 44px; z-index: 9999; display: flex; flex-direction: column; width: 240px; padding: 4px; }
+    #menu[hidden] { display: none; }
+    #menu button { padding: 8px 10px; background: none; border: 0; text-align: left; cursor: pointer; }
+    #menu button:hover, #menu button:focus-visible { background: #000080; color: #fff; outline: none; }
+  </style>
+</head>
+<body>
+  <main class="desktop" id="desktop">
+    <nav class="icons" aria-label="Desktop">
+      <button class="icon" data-open="showcase">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="1" width="14" height="14" fill="#fff"/><path d="M1 1h14v14H1z" fill="none" stroke="#000"/><rect x="2" y="2" width="12" height="3" fill="#000080"/><text x="8" y="13" font-size="8" font-weight="bold" font-family="Arial" text-anchor="middle">R</text></svg>
+        <span lang="en">My Showcase</span><span lang="id">Showcase Saya</span>
+      </button>
+      <button class="icon" data-open="credits">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="13" fill="#ffffc0" stroke="#000"/><rect x="2" y="2" width="12" height="2" fill="#808080"/><path d="M4 7h8M4 9h8M4 11h8M4 13h5" stroke="#000"/></svg>
+        <span lang="en">Credits</span><span lang="id">Kredit</span>
+      </button>
+    </nav>
+
+    <section class="win raised" id="showcase" hidden style="left:150px;top:10px;width:min(1080px, calc(100% - 160px));height:min(900px, calc(100% - 20px))">
+      <header class="bar"><span>Rony Risvaldo - Showcase 2026</span><button class="raised" aria-label="Close">×</button></header>
+      <div class="body sunken">
+        <div class="show" id="show" data-page="home">
+          <nav class="side" aria-label="Showcase">
+            <b>Rony Risvaldo</b><small>Showcase '26</small>
+            <button class="link" data-go="home"><span lang="en">Home</span><span lang="id">Beranda</span></button>
+            <button class="link" data-go="about"><span lang="en">About</span><span lang="id">Tentang</span></button>
+            <button class="link" data-go="experience"><span lang="en">Experience</span><span lang="id">Pengalaman</span></button>
+            <button class="link" data-go="projects"><span lang="en">Projects</span><span lang="id">Project</span></button>
+            <button class="link" data-go="contact"><span lang="en">Contact</span><span lang="id">Kontak</span></button>
+          </nav>
+          <div class="pages" id="pages">
+
+            <article class="home" data-page="home">
+              <h1>Rony Risvaldo</h1>
+              <p>Claude Fans</p>
+              <nav>
+                <button class="link" data-go="about"><span lang="en">About</span><span lang="id">Tentang</span></button>
+                <button class="link" data-go="experience"><span lang="en">Experience</span><span lang="id">Pengalaman</span></button>
+                <button class="link" data-go="projects"><span lang="en">Projects</span><span lang="id">Project</span></button>
+                <button class="link" data-go="contact"><span lang="en">Contact</span><span lang="id">Kontak</span></button>
+              </nav>
+            </article>
+
+            <article data-page="about" hidden>
+              <h2><span lang="en">Welcome</span><span lang="id">Selamat Datang</span></h2>
+              <div lang="en">
+                <h3>I'm Rony Risvaldo</h3>
+                <p>I'm an Informatics student (class of 2024) at Universitas Satya Terra Bhinneka, and I currently work at PDSI (Pusat Data dan Sistem Informasi), the university's center for data and information systems.</p>
+                <p>Thank you for taking the time to look through my portfolio. If you have a question or an opportunity, use the <button class="link" data-go="contact">contact form</button> or email me at <a href="mailto:ronyrisvaldo313@gmail.com">ronyrisvaldo313@gmail.com</a>.</p>
+              </div>
+              <div lang="id">
+                <h3>Saya Rony Risvaldo</h3>
+                <p>Saya mahasiswa Informatika angkatan 2024 di Universitas Satya Terra Bhinneka, dan saat ini bekerja di PDSI (Pusat Data dan Sistem Informasi) universitas tersebut.</p>
+                <p>Terima kasih sudah meluangkan waktu melihat portofolio saya. Jika ada pertanyaan atau tawaran kerja sama, silakan gunakan <button class="link" data-go="contact">formulir kontak</button> atau kirim email ke <a href="mailto:ronyrisvaldo313@gmail.com">ronyrisvaldo313@gmail.com</a>.</p>
+              </div>
+              <h3><span lang="en">About Me</span><span lang="id">Tentang Saya</span></h3>
+              <figure class="photo">
+                <img src="assets/img/profil.jpeg" alt="Rony Risvaldo" width="460" height="460">
+              </figure>
+              <div lang="en">
+                <p>My background is in computer networking. I studied Computer and Network Engineering at SMK Negeri 9 Medan, where I set up DNS, web, mail and FTP servers on Debian and connected them into a local network that works without internet access.</p>
+                <p>Along the way I became interested in cyber security, and that interest led me to programming: to understand how a system is attacked and defended, I wanted to understand how it is built. Today I build web and mobile applications while continuing to study networks and operating systems.</p>
+                <h3>My Hobbies</h3>
+                <p>Outside of work and study, I enjoy playing Mobile Legends: Bang Bang.</p>
+              </div>
+              <div lang="id">
+                <p>Latar belakang saya adalah jaringan komputer. Saya menempuh jurusan Teknik Jaringan Komputer di SMK Negeri 9 Medan, tempat saya membangun DNS server, web server, email server, dan FTP server di Debian, lalu menghubungkannya menjadi jaringan lokal yang dapat diakses tanpa internet.</p>
+                <p>Dalam prosesnya saya tertarik pada dunia cyber security, dan ketertarikan itu membawa saya ke pemrograman: untuk memahami bagaimana sebuah sistem diserang dan dipertahankan, saya ingin memahami bagaimana sistem itu dibangun. Kini saya membangun aplikasi web dan mobile sambil terus mendalami jaringan komputer dan sistem operasi.</p>
+                <h3>Hobi</h3>
+                <p>Di luar pekerjaan dan kuliah, saya senang bermain Mobile Legends: Bang Bang.</p>
+              </div>
+            </article>
+
+            <article data-page="experience" hidden>
+              <h2><span lang="en">Experience</span><span lang="id">Pengalaman</span></h2>
+
+              <h3>PDSI, Universitas Satya Terra Bhinneka</h3>
+              <p class="meta"><span>Pusat Data dan Sistem Informasi</span><span><span lang="en">Present</span><span lang="id">Sekarang</span></span></p>
+              <p lang="en">I currently work in the university's center for data and information systems.</p>
+              <p lang="id">Saat ini saya bekerja di unit pusat data dan sistem informasi universitas.</p>
+
+              <h3>PT. Brylian Bisnis Center</h3>
+              <p class="meta"><span><span lang="en">Admin (Internship)</span><span lang="id">Admin (Magang)</span></span><span>Jul 2023 - Nov 2023</span></p>
+              <ul lang="en">
+                <li>Prepared the company's official letters for the distribution and installation of Telkomsel ODP (Optical Distribution Point) poles, using Microsoft Word and Excel.</li>
+                <li>Assisted with repairing company equipment.</li>
+                <li>Helped improve the effectiveness of the company's network.</li>
+              </ul>
+              <ul lang="id">
+                <li>Menyusun surat resmi perusahaan untuk pengedaran dan pembuatan tiang ODP (Optical Distribution Point) Telkomsel menggunakan Microsoft Word dan Excel.</li>
+                <li>Membantu perbaikan peralatan perusahaan.</li>
+                <li>Membantu meningkatkan efektivitas jaringan perusahaan.</li>
+              </ul>
+
+              <h2 style="margin-top:36px"><span lang="en">Education</span><span lang="id">Pendidikan</span></h2>
+              <h3>Universitas Satya Terra Bhinneka</h3>
+              <p class="meta"><span><span lang="en">Informatics</span><span lang="id">Informatika</span></span><span>2024 - <span lang="en">Present</span><span lang="id">Sekarang</span></span></p>
+              <h3>SMK Negeri 9 Medan</h3>
+              <p class="meta"><span><span lang="en">Computer and Network Engineering</span><span lang="id">Teknik Jaringan Komputer</span></span><span>Jun 2021 - <span lang="en">May</span><span lang="id">Mei</span> 2024</span></p>
+              <h3><span lang="en">Certifications</span><span lang="id">Sertifikasi</span></h3>
+              <ul>
+                <li>MOS (Microsoft Office Specialist)</li>
+                <li>BNSP (Network)</li>
+                <li>UKK (Teknik Jaringan Komputer)</li>
+              </ul>
+            </article>
+
+            <article data-page="projects" hidden>
+              <h2><span lang="en">Projects</span><span lang="id">Project</span></h2>
+
+              <h3>CBT Rony</h3>
+              <p lang="en">Paper-based multiple-choice exams use a lot of paper and take time to print, distribute and mark. CBT Rony moves the exam to the computer, with real-time exam monitoring through Laravel Reverb.</p>
+              <p lang="id">Ujian pilihan ganda berbasis kertas menghabiskan banyak kertas serta waktu untuk mencetak, membagikan, dan memeriksa. CBT Rony memindahkan ujian ke komputer, lengkap dengan pemantauan ujian secara realtime melalui Laravel Reverb.</p>
+              <p class="tags">Laravel 12 · Livewire 3 · PostgreSQL · Tailwind — <a href="https://github.com/RonyRisvaldoLumbanBatu/CBT-Rony" target="_blank" rel="noopener">GitHub</a></p>
+
+              <h3>IT Helpdesk</h3>
+              <p lang="en">A single place to report and follow up on IT problems: users open a ticket and talk to the support team through real-time ticket chat. Ready to run with Docker.</p>
+              <p lang="id">Satu tempat untuk melaporkan dan menindaklanjuti masalah IT: pengguna membuat tiket dan berkomunikasi dengan tim melalui chat tiket realtime. Siap dijalankan dengan Docker.</p>
+              <p class="tags">PHP · CSS · Docker — <a href="https://github.com/RonyRisvaldoLumbanBatu/it-helpdesk" target="_blank" rel="noopener">GitHub</a></p>
+
+              <h3>SAPL · POS Resto</h3>
+              <p lang="en">A point-of-sale application for Ayam Penyet Lamongan, a small culinary business, covering orders, stock and financial reports in one place.</p>
+              <p lang="id">Aplikasi point of sales untuk UMKM kuliner Ayam Penyet Lamongan yang mencakup pesanan, stok, dan laporan keuangan dalam satu tempat.</p>
+              <p class="tags">React · Node.js · Vite · MySQL — <a href="https://github.com/RonyRisvaldoLumbanBatu/SAPL" target="_blank" rel="noopener">GitHub</a></p>
+
+              <h3>BhinnekaPay</h3>
+              <p lang="en">A mini mobile banking application for managing balances and transactions.</p>
+              <p lang="id">Aplikasi mobile banking mini untuk mengelola saldo dan transaksi.</p>
+              <p class="tags">Flutter · Dart — <a href="https://github.com/RonyRisvaldoLumbanBatu/BhinnekaPay" target="_blank" rel="noopener">GitHub</a></p>
+
+              <h3><span lang="en">Earlier Work</span><span lang="id">Karya Sebelumnya</span></h3>
+              <ul lang="en">
+                <li><b>Hospital system in Python</b> (Nov 2024 - Jan 2025): designed the system flowchart in Draw.io and wrote its algorithms in Python.</li>
+                <li><b>Local network server</b> (Nov 2022 - May 2023): DNS, web, mail and FTP servers on Debian, connected through a router into a local network.</li>
+              </ul>
+              <ul lang="id">
+                <li><b>Sistem rumah sakit dengan Python</b> (Nov 2024 - Jan 2025): merancang flowchart sistem di Draw.io dan menulis algoritmanya dengan Python.</li>
+                <li><b>Server jaringan lokal</b> (Nov 2022 - Mei 2023): DNS, web, email, dan FTP server di Debian yang dihubungkan melalui router menjadi jaringan lokal.</li>
+              </ul>
+
+              <h3><span lang="en">All Repositories</span><span lang="id">Semua Repositori</span></h3>
+              <p class="tags"><span lang="en">Loaded live from GitHub.</span><span lang="id">Dimuat langsung dari GitHub.</span></p>
+              <ul id="repos"></ul>
+            </article>
+
+            <article data-page="contact" hidden>
+              <h2><span lang="en">Contact</span><span lang="id">Kontak</span></h2>
+              <p lang="en">If you have an opportunity or a question, feel free to reach out. You can email me, find me on the links below, or fill in the form.</p>
+              <p lang="id">Jika ada tawaran kerja sama atau pertanyaan, silakan hubungi saya lewat email, tautan di bawah, atau formulir berikut.</p>
+              <p>Email: <a href="mailto:ronyrisvaldo313@gmail.com">ronyrisvaldo313@gmail.com</a><br>
+                LinkedIn: <a href="https://www.linkedin.com/in/ronyrisvaldo/" target="_blank" rel="noopener">linkedin.com/in/ronyrisvaldo</a><br>
+                Instagram: <a href="https://www.instagram.com/ronyrisvaldo/" target="_blank" rel="noopener">instagram.com/ronyrisvaldo</a><br>
+                GitHub: <a href="https://github.com/RonyRisvaldoLumbanBatu" target="_blank" rel="noopener">github.com/RonyRisvaldoLumbanBatu</a></p>
+              <form id="contactForm">
+                <label><span lang="en">Your name</span><span lang="id">Nama</span> *<input class="sunken" type="text" name="name" required></label>
+                <label>Email *<input class="sunken" type="email" name="email" required></label>
+                <label><span lang="en">Message</span><span lang="id">Pesan</span> *<textarea class="sunken" name="message" rows="5" required></textarea></label>
+                <button class="raised" type="submit"><span lang="en">Send Message</span><span lang="id">Kirim Pesan</span></button>
+                <p id="formNote" role="status"></p>
+              </form>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="win raised" id="credits" hidden style="left:330px;top:160px;width:680px">
+      <header class="bar"><span><span lang="en">Credits</span><span lang="id">Kredit</span></span><button class="raised" aria-label="Close">×</button></header>
+      <div class="body sunken pad">
+        <p><b><span lang="en">3D room</span><span lang="id">Ruang 3D</span></b><br>
+          <span lang="en">Based on</span><span lang="id">Berbasis</span>
+          <a href="https://github.com/henryjeff/portfolio-website" target="_blank" rel="noopener">portfolio-website</a>
+          <span lang="en">by Henry Heffernan, MIT License.</span><span lang="id">karya Henry Heffernan, lisensi MIT.</span></p>
+        <p><b><span lang="en">This desktop</span><span lang="id">Desktop ini</span></b><br>
+          <span lang="en">Written from scratch for this portfolio, inspired by 1990s operating systems and by Henry Heffernan's portfolio.</span>
+          <span lang="id">Ditulis dari nol untuk portofolio ini, terinspirasi sistem operasi era 1990-an dan portofolio Henry Heffernan.</span></p>
+      </div>
+    </section>
+  </main>
+
+  <div class="raised" id="menu" hidden></div>
+  <footer class="taskbar raised">
+    <button class="raised" id="start" aria-expanded="false" aria-controls="menu"><span lang="en">Start</span><span lang="id">Mulai</span></button>
+    <div id="tasks"></div>
+    <button class="raised" id="lang" aria-label="Switch language"></button>
+    <span class="sunken" id="clock"></span>
+  </footer>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const desktop = $('desktop'), tasks = $('tasks'), menu = $('menu'), start = $('start');
+    const root = document.documentElement;
+    let zTop = 10;
+
+    // ---------- bahasa (default Inggris, pilihan disimpan) ----------
+    function setLang(lang) {
+      root.lang = lang;
+      $('lang').textContent = lang === 'en' ? 'ID' : 'EN'; // tombol menampilkan bahasa tujuan
+      try { localStorage.setItem('lang', lang); } catch {}
+    }
+    let saved = null;
+    try { saved = localStorage.getItem('lang'); } catch {}
+    setLang(saved === 'id' ? 'id' : 'en');
+    $('lang').addEventListener('click', () => setLang(root.lang === 'en' ? 'id' : 'en'));
+
+    // ---------- jendela ----------
+    function focusWin(win) {
+      win.style.zIndex = ++zTop;
+      document.querySelectorAll('.win').forEach(w => w.classList.toggle('active', w === win));
+      tasks.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.open === win.id));
+    }
+
+    function openWin(id) {
+      const win = $(id);
+      if (win.hidden) {
+        win.hidden = false;
+        const b = document.createElement('button');
+        b.className = 'raised';
+        b.dataset.open = id;
+        b.innerHTML = win.querySelector('.bar > span').innerHTML; // markup statis milik halaman ini
+        tasks.append(b);
+      }
+      focusWin(win);
+    }
+
+    function closeWin(win) {
+      win.hidden = true;
+      tasks.querySelector(`[data-open="${win.id}"]`).remove();
+    }
+
+    function toggleMenu(show) {
+      menu.hidden = !show;
+      start.setAttribute('aria-expanded', show);
+    }
+
+    // menu Start berisi entri yang sama dengan ikon desktop
+    document.querySelectorAll('button.icon').forEach(icon => {
+      const b = document.createElement('button');
+      b.dataset.open = icon.dataset.open;
+      icon.querySelectorAll('span').forEach(s => b.append(s.cloneNode(true)));
+      menu.append(b);
+    });
+
+    // ---------- halaman di dalam Showcase ----------
+    const show = $('show');
+    function go(page) {
+      show.dataset.page = page;
+      document.querySelectorAll('#pages > article').forEach(a => { a.hidden = a.dataset.page !== page; });
+      show.querySelectorAll('.side [data-go]').forEach(b => {
+        if (b.dataset.go === page) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+      });
+      $('pages').scrollTop = 0;
+      if (page === 'projects') loadRepos();
+    }
+
+    document.addEventListener('click', e => {
+      const opener = e.target.closest('[data-open]');
+      if (opener) openWin(opener.dataset.open);
+      const close = e.target.closest('.bar button');
+      if (close) closeWin(close.closest('.win'));
+      const nav = e.target.closest('[data-go]');
+      if (nav) go(nav.dataset.go);
+      toggleMenu(Boolean(e.target.closest('#start')) && menu.hidden);
+    });
+
+    // geser jendela lewat bilah judul
+    desktop.addEventListener('pointerdown', e => {
+      const win = e.target.closest('.win');
+      if (!win) return;
+      focusWin(win);
+      const bar = e.target.closest('.bar');
+      if (!bar || e.target.closest('button')) return;
+      const dx = e.clientX - win.offsetLeft, dy = e.clientY - win.offsetTop;
+      desktop.classList.add('dragging');
+      const move = ev => {
+        // bilah judul tidak boleh keluar dari desktop, supaya jendela selalu bisa diraih lagi
+        win.style.left = Math.min(Math.max(ev.clientX - dx, 60 - win.offsetWidth), desktop.clientWidth - 60) + 'px';
+        win.style.top = Math.min(Math.max(ev.clientY - dy, 0), desktop.clientHeight - 30) + 'px';
+      };
+      addEventListener('pointermove', move);
+      addEventListener('pointerup', () => {
+        removeEventListener('pointermove', move);
+        desktop.classList.remove('dragging');
+      }, { once: true });
+    });
+
+    // ---------- repositori dari GitHub API ----------
+    let reposLoaded = false;
+    async function loadRepos() {
+      if (reposLoaded) return;
+      reposLoaded = true;
+      const list = $('repos');
+      try {
+        // shortcut: API tanpa token dibatasi 60 permintaan/jam per IP, jadi hasil disimpan per sesi; pakai token/proxy kalau trafik besar
+        let repos = JSON.parse(sessionStorage.getItem('repos') || 'null');
+        if (!repos) {
+          const res = await fetch('https://api.github.com/users/RonyRisvaldoLumbanBatu/repos?sort=updated&per_page=100');
+          if (!res.ok) throw new Error(res.status);
+          repos = (await res.json()).filter(r => !r.fork)
+            .map(r => ({ name: r.name, url: r.html_url, desc: r.description, lang: r.language, stars: r.stargazers_count }));
+          sessionStorage.setItem('repos', JSON.stringify(repos));
+        }
+        for (const r of repos) {
+          const li = document.createElement('li'), a = document.createElement('a');
+          a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = r.name;
+          li.append(a, ` ${[r.lang, r.stars ? '★ ' + r.stars : ''].filter(Boolean).join(' · ')}`);
+          if (r.desc) li.append(document.createElement('br'), r.desc);
+          list.append(li);
+        }
+      } catch {
+        reposLoaded = false;
+        list.innerHTML = '<li><span lang="en">GitHub could not be reached right now.</span><span lang="id">GitHub tidak dapat dihubungi saat ini.</span> <a href="https://github.com/RonyRisvaldoLumbanBatu?tab=repositories" target="_blank" rel="noopener">github.com/RonyRisvaldoLumbanBatu</a></li>';
+      }
+    }
+
+    // ---------- formulir kontak (terkirim ke email lewat FormSubmit) ----------
+    const form = $('contactForm'), note = $('formNote');
+    const say = (en, id) => { note.textContent = root.lang === 'en' ? en : id; };
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = form.querySelector('button');
+      btn.disabled = true;
+      say('Sending...', 'Mengirim...');
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/ronyrisvaldo313@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            name: form.name.value,
+            email: form.email.value,
+            message: form.message.value,
+            _subject: 'Pesan baru dari website portofolio',
+            _template: 'table'
+          })
+        });
+        if (!res.ok) throw new Error('gagal');
+        say('Message sent. Thank you!', 'Pesan terkirim. Terima kasih!');
+        form.reset();
+      } catch {
+        say('Sending failed. Please try again, or email me directly.', 'Gagal mengirim. Coba lagi, atau kirim email langsung.');
+      }
+      btn.disabled = false;
+    });
+
+    // ---------- jam ----------
+    const tick = () => { $('clock').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); };
+    tick();
+    setInterval(tick, 10000);
+
+    openWin('showcase');
+  </script>
+  <script src="assets/js/monitor-bridge.js"></script>
+</body>
+</html>
